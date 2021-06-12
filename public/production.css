@@ -112,6 +112,7 @@ nav#links {
 }
 
 nav#links a {
+    text-transform: capitalize;
     display: flex;
     align-items: center;
     margin-left: 10px;
@@ -251,6 +252,7 @@ section {
 }
 
 .login h1 {
+    text-transform: capitalize;
     font-size: 2em;
     margin-top: 5px;
     border-radius: 5px;

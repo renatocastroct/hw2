@@ -8,6 +8,11 @@ function onInfoUser(json) {
         return;
     }
     var div_user = document.querySelector("#user");
+    if (form_login) {
+        window.location.reload();
+    }
+    div_user.classList.remove("login");
+    div_user.classList.add("off");
     var new_name = document.createElement("h1");
     new_name.textContent = json["nome"] + " " + json["cognome"];
     var new_username = document.createElement("h4");
@@ -126,11 +131,7 @@ function signIn(event) {
           },
         method: 'POST',
         body: newFormLogin
-    }).then(onResponse).then(onInfoUser).catch(function(error) {
-        if (error == "SyntaxError: Unexpected token < in JSON at position 0") {
-            window.location.reload();
-        }
-    });
+    }).then(onResponse).then(onInfoUser);
     if (event) {
         event.preventDefault();
     }
@@ -171,7 +172,6 @@ function hiddenLogin(event) {
         div_user.classList.add("off");
     }
 }
-
 
 function onResponse(response) {
     return response.json();

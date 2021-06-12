@@ -60,9 +60,13 @@ function checkUsername(json) {
         return;
     }
     let newFormRegistration = new FormData(formRegistration);
+    let metaToken = document.querySelector('[name="csrf-token"]');
     newFormRegistration.append("username", json[0]);
     newFormRegistration.append("send", json[0]);
     fetch('signupvalidation', {
+        headers: {
+            'X-CSRF-TOKEN': metaToken["content"]
+          },
         method: 'POST',
         body: newFormRegistration
     }).then(onResponse).then(confirmRegistration);
@@ -100,11 +104,7 @@ function signIn(event) {
           },
         method: 'POST',
         body: newFormLogin
-    }).then(onResponse).then(onInfoUser).catch(function(error) {
-        if (error == "SyntaxError: Unexpected token < in JSON at position 0") {
-            window.location.replace("http://localhost/hw2/public/home");
-        }
-    });
+    }).then(onResponse).then(onInfoUser);
     if (event) {
         event.preventDefault();
     }
@@ -122,6 +122,11 @@ function onInfoUser(json) {
         return;
     }
     var div_user = document.querySelector("#user");
+    if (form_login) {
+        window.location.replace("http://localhost/hw2/public/home");
+    }
+    div_user.classList.remove("login");
+    div_user.classList.add("off");
     var new_name = document.createElement("h1");
     new_name.textContent = json["nome"] + " " + json["cognome"];
     var new_username = document.createElement("h4");

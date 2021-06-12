@@ -10,11 +10,14 @@ class SignupController extends BaseController
 
     // -- signup_validation.php --
 
+    //registrazione dove cognome e nome possono essere scritti lato client con maiuscole o minuscole
+    //tanto comunque lato server si riporta tutto in minuscolo
+
     public function signupValidation() {
         if (request("username") !== null) {
 
-            if(!preg_match("/^[a-zA-Z0-9_]{8,15}$/", request("password"))) {
-                return json_encode("Password non valida");
+            if(!preg_match("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&:;,.?~_|]).{8,15}$/", request("password"))) {
+                return json_encode("Password non valida (Upper, Lower, *.!@$%^&:;,.?~_|)");
             }
             if (strcmp(request("password"), request("passwordConfirm")) !== 0) {
                 return json_encode("Le password non coincidono");
@@ -23,8 +26,8 @@ class SignupController extends BaseController
             $password = addslashes(request("password"));
             $password = password_hash($password, PASSWORD_BCRYPT);
             $newUser = new User;
-            $newUser->nome = request("firstName");
-            $newUser->cognome = request("lastName");
+            $newUser->nome = strtolower(request("firstName"));
+            $newUser->cognome = strtolower(request("lastName"));
             $newUser->livello = '4';
             $newUser->direzione = request("department");
             $newUser->username = request("username");
@@ -33,8 +36,8 @@ class SignupController extends BaseController
             $newUser->save();
 
             if ($newUser) {
-                session(["username" => request("username")]);
-                session(["name" => request("firstName")]);
+                session(["username" => $newUser->username]);
+                session(["name" => $newUser->nome]);
                 return array("Registrazione effettuata");
             }
         

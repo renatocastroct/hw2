@@ -15,7 +15,7 @@ class LoginHomeController extends BaseController
 
     public function homeUser() {
         if (session("username") !== null) {
-            $username = session("username");
+            $username = strtolower(session("username"));
         } else {
             $username = addslashes(request("username"));
             $password = addslashes(request("password"));
@@ -29,7 +29,6 @@ class LoginHomeController extends BaseController
                 if (password_verify($password, $user->password)) {
                     session(["username" => $user->username]);
                     session(["name" => $user->nome]);
-                    return redirect(request("send"));
                 } else {
                     return json_encode("Password errata");
                 }
@@ -40,50 +39,6 @@ class LoginHomeController extends BaseController
 
         return $user;
     }
-
-    /*public function homeUser($userByCheck) {
-        if (session("username") !== null) {
-            $username = session("username");
-        } else {
-            $username = addslashes(request("username"));
-            $password = addslashes(request("password"));
-            }
-        
-        $user = User::join('departments as d', 'users.direzione', '=', 'd.id')
-            ->where('username', $username)
-            ->first(['d.nome as direzione', 'users.nome', 'users.cognome', 'users.livello', 'users.username', 'users.password']);
-        if($user) {
-            if (session("username") == null) {
-                if (password_verify($password, $user->password)) {
-                    session(["username" => $user->username]);
-                    session(["name" => $user->nome]);
-                    return redirect(request("send"));
-                } else {
-                    return json_encode("Password errata");
-                }
-            } 
-        } else {
-            return json_encode("Utente non trovato");
-            }
-
-        return $user;
-    }*/
-
-    /*public function checkCredentials() {
-        if (!request("username") && !request("password")) {
-            return json_encode("Errore invio dati");
-        }
-
-        $checkUser = User::where("username", request("username")) -> exists();
-        if ($checkUser) {
-            $checkPassword = User::where("username", $username) -> first("password");
-            if (password_verify(request("password"), $checkPassword)) {
-                return redirect()->action("App\Http\Controllers\LoginHomeController@homeUser", ["username" => classrequest("username")]);
-            }
-            return json_encode("Password errata");
-        }
-        return json_encode("Utente non trovato");
-    }*/
 
     // -- home_notlog.php --
 

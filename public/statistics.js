@@ -28,6 +28,7 @@ function windowTitle(event) {
 function windowMenu(title) {
     switch(title) {
         case "Stock Comparison":
+            loadingGif();
             fetch('statistics/comparison').then(onResponse).then(onQuotes);
             break;
         case "Stock Market":
@@ -42,7 +43,23 @@ function windowMenu(title) {
       }
 }
 
+function loadingGif() {
+    clearManage();
+    var manage = document.querySelector(".manage");
+    
+    let image = document.querySelector("#loadingGif");
+    if (!image) {
+        let image = document.createElement("img");
+        image.setAttribute("id", "loadingGif")
+        image.src = "loading.gif";
+        manage.appendChild(image);
+    } else {
+        image.classList.remove("off");
+        }
+}
+
 function workInProgress() { 
+    clearManage();
     let notice = document.querySelector(".work");
     var manage = document.querySelector(".manage");
     if (!notice) {
@@ -55,9 +72,10 @@ function workInProgress() {
         notice.classList.add("work");
         }
     
-    let image = document.querySelector(".manage img");
+    let image = document.querySelector("#willie");
     if (!image) {
         let image = document.createElement("img");
+        image.setAttribute("id", "willie");
         image.src = "workInProgress.jpeg";
         manage.appendChild(image);
     } else {
@@ -65,19 +83,26 @@ function workInProgress() {
         }
 }
 
-function onQuotes (json) {
+function clearManage() {
     let notice = document.querySelector(".manage h3");
     if (notice) {
         notice.classList.add("off");
     }
+    let images = document.querySelectorAll(".manage img");
+    if (images) {
+        for (let image of images) {
+            image.classList.add("off");
+        }
+    }
+}
+
+function onQuotes (json) {
+    clearManage();
+
     let table = document.querySelector(".manage table");
     if (table) {
         var t_body = document.querySelector("tbody");
         t_body.innerHTML = '';
-    }
-    let image = document.querySelector(".manage img");
-    if (image) {
-        image.classList.add("off");
     }
 
     var company_list = json['companies'];
@@ -158,13 +183,17 @@ function hiddenLogin(event) {
     }
 }
 
-
 function onInfoUser(json) {
     if (typeof json == "string") {
         alert(json);
         return;
     }
     var div_user = document.querySelector("#user");
+    if (form_login) {
+        window.location.reload();
+    }
+    div_user.classList.remove("login");
+    div_user.classList.add("off");
     var new_name = document.createElement("h1");
     new_name.textContent = json["nome"] + " " + json["cognome"];
     var new_username = document.createElement("h4");
@@ -194,11 +223,7 @@ function signIn(event) {
           },
         method: 'POST',
         body: newFormLogin
-    }).then(onResponse).then(onInfoUser).catch(function(error) {
-        if (error == "SyntaxError: Unexpected token < in JSON at position 0") {
-            window.location.reload();
-        }
-    });
+    }).then(onResponse).then(onInfoUser);
     if (event) {
         event.preventDefault();
     }

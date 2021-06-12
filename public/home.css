@@ -116,6 +116,7 @@ nav#links a {
     align-items: center;
     margin-left: 10px;
     margin-right: 10px;
+    text-transform: capitalize;
 }
 
 nav#links a:hover {
@@ -246,6 +247,7 @@ nav#links img {
 }
 
 .login h1 {
+    text-transform: capitalize;
     font-size: xx-large;
     margin-top: 5px;
     border-radius: 5px;

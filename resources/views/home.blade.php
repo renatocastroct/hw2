@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ url('home.css') }}">
     
     <script src="{{ url('home.js') }}" defer></script>
+
   </head>
 
   <body>

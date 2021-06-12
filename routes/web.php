@@ -38,8 +38,6 @@ Route::get('statistics', function () {
 
 Route::post('user', 'App\Http\Controllers\LoginHomeController@homeUser');
 
-Route::get('user', 'App\Http\Controllers\LoginHomeController@homeUser');
-
 Route::get('department', 'App\Http\Controllers\LoginHomeController@homeDepartment');
 Route::get('home/department', 'App\Http\Controllers\LoginHomeController@homeDepartment');
 Route::get('production/department', 'App\Http\Controllers\LoginHomeController@homeDepartment');
@@ -55,7 +53,9 @@ Route::get('droplot/{lot}', 'App\Http\Controllers\ManageLotsController@dropLot')
 Route::get('createlot/{lot}/{product}/{nWfs}', 'App\Http\Controllers\ManageLotsController@createLot');
 
 Route::get('production/{send}', function ($send) {
-    return view('production')->with("send", $send);
+    return view('production')
+    ->with("send", $send)
+    ->with('csrf_token', csrf_token());
 });
 
 Route::get('checkusername/{firstName}/{lastName}/{department}', 'App\Http\Controllers\SignupController@checkUsername');

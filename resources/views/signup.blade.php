@@ -117,7 +117,7 @@
                           <option value='Uomo'>Male</option>
                           <option value='Privato'>Private</option>
                       </select>
-                      <input type='password' name='password' placeholder="Letters, numbers and underscore">
+                      <input type='password' name='password' placeholder="Uppers, Lowers, numbers and *.!@$%^&:;,.?~_|">
                       <input type='password' name='passwordConfirm'>
                   </div>  
                 </div>

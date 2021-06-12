@@ -5,6 +5,14 @@ body {
     margin: 0;
 }
 
+#loadingGif {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
 a {
     cursor: pointer;
 }
@@ -63,6 +71,7 @@ nav#links {
 }
 
 nav#links a {
+    text-transform: capitalize;
     display: flex;
     align-items: center;
     margin-left: 10px;
@@ -206,6 +215,7 @@ section {
 }
 
 .login h1 {
+    text-transform: capitalize;
     font-size: 2em;
     margin-top: 5px;
     border-radius: 5px;
@@ -310,7 +320,7 @@ section {
     font-size: x-large;
 }
 
-.manage img {
+#willie {
     margin: 10px;
     width: 150px;
     height: 250px;

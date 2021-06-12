@@ -53,8 +53,6 @@ if (title) {
 
 login.addEventListener("click", viewLogin);
 
-var div_user = document.querySelector("#user");
-
 function viewLogin() {
     if (div_user.classList.contains("off")) {
         div_user.classList.remove("off");
@@ -438,9 +436,6 @@ function manageMachines(json) {
     
 }
 
-
-var form_login = document.forms["login"];
-
 function signIn(event) {
     let newFormLogin = new FormData(form_login);
     let metaToken = document.querySelector('[name="csrf-token"]');
@@ -450,11 +445,7 @@ function signIn(event) {
           },
         method: 'POST',
         body: newFormLogin
-    }).then(onResponse).then(onInfoUser).catch(function(error) {
-        if (error == "SyntaxError: Unexpected token < in JSON at position 0") {
-            window.location.reload();
-        }
-    });
+    }).then(onResponse).then(onInfoUser);
     if (event) {
         event.preventDefault();
     }
@@ -467,11 +458,17 @@ if (!form_login) {
 }
 
 function onInfoUser(json) {
+    console.log("ciao");
     if (typeof json == "string") {
         alert(json);
         return;
     }
     var div_user = document.querySelector("#user");
+    if (form_login) {
+        window.location.reload();
+    }
+    div_user.classList.remove("login");
+    div_user.classList.add("off");
     var new_name = document.createElement("h1");
     new_name.textContent = json["nome"] + " " + json["cognome"];
     var new_username = document.createElement("h4");

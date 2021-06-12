@@ -25,7 +25,7 @@ class StatisticsController extends BaseController
         $companiesData['meh'] = $mehQuotes;
         //if(!$request)->successful()) return null;
         if($quotes->failed()) {
-            return null;
+            abort(500);
         }
         $companiesData['companies'] = $quotes['data'];
         $symbols = '';
