@@ -8,7 +8,7 @@ use App\Models\Lot;
 class ManageLotsController extends BaseController
 {
     
-    public function manageLots($initCall = 1, $lot = 1, $product = 1, $flag = 1) {
+    public function manageLots($initCall = 1, $lot = "null", $product = "null", $flag = "null") {
         if(session("username") == null) {
             return json_encode("Eseguire l'accesso per visualizzare il contenuto");
         }
@@ -17,16 +17,16 @@ class ManageLotsController extends BaseController
             return $noTable = [];
         }
 
-        if ($lot == 1 && $product == 1 && $flag == 1) {
+        if ($lot == "null" && $product == "null" && $flag == "null") {
             $lotsList = Lot::all();
         } else {
-            if ($product !== 1) {
+            if ($product !== "null") {
                 $query = Lot::where("prodotto", $product);
             }
-            if ($flag !== 1) {
+            if ($flag !== "null") {
                 $query = Lot::where("flag", $flag);
             }
-            if ($lot !== 1) {
+            if ($lot !== "null") {
                 $query = Lot::where("serie", "like", '%'.$lot.'%');
             }
             $lotsList = $query->get();
