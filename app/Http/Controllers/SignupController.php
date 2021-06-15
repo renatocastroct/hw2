@@ -8,11 +8,6 @@ use App\Models\User;
 class SignupController extends BaseController
 {
 
-    // -- signup_validation.php --
-
-    //registrazione dove cognome e nome possono essere scritti lato client con maiuscole o minuscole
-    //tanto comunque lato server si riporta tutto in minuscolo
-
     public function signupValidation() {
         if (request("username") !== null) {
 
@@ -46,11 +41,7 @@ class SignupController extends BaseController
         }
 
     }
-
-    // -- check_username.php --
-
-    //controllo username lato client come da specifica ma con poco senso,
-    //dato che lo username viene creato dal server
+    
     public function checkUsername($firstName, $lastName, $department) {
         if (!empty($firstName) && !empty($lastName) && !empty($department)) {
             if (!preg_match("/^[A-Za-z]+$/", $firstName)) {
