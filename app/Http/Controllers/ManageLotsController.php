@@ -7,8 +7,7 @@ use App\Models\Lot;
 
 class ManageLotsController extends BaseController
 {
-    // -- manage_lots.php --
-
+    
     public function manageLots($initCall = 1, $lot = 1, $product = 1, $flag = 1) {
         if(session("username") == null) {
             return json_encode("Eseguire l'accesso per visualizzare il contenuto");
@@ -40,8 +39,6 @@ class ManageLotsController extends BaseController
         }
     }
 
-    // -- drop_lot.php --
-
     public function dropLot($lot) {
         $query = Lot::destroy($lot);
         if ($query) {
@@ -50,8 +47,6 @@ class ManageLotsController extends BaseController
             return json_encode("Errore server");
         }
     }
-
-    // -- create_lot.php --
 
     public function createLot($lot, $product, $nWfs) {
         $checkLot = Lot::where('serie', $lot)->first('serie');
