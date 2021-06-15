@@ -11,8 +11,6 @@ use App\Models\StoricoAchv;
 class LoginHomeController extends BaseController
 {
 
-    // --- home_user.php --
-
     public function homeUser() {
         if (session("username") !== null) {
             $username = strtolower(session("username"));
@@ -40,10 +38,7 @@ class LoginHomeController extends BaseController
         return $user;
     }
 
-    // -- home_notlog.php --
-
     public function homeNotLog() {
-        //definire meglio questo array, in altro file o nel db
         $news = [
             [
             'day' => 'Lunedì 29',
@@ -60,17 +55,13 @@ class LoginHomeController extends BaseController
         ];
         $data[] = $news;
 
-        //nel db dovremmo avere sempre l'elenco dei target di ogni reparto per ogni turno (M-P-N)
-        //quindi $yesterday avrà sempre risultati per la data di ieri
         $yesterday = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d")-1, date("Y")));
-        //questa però per semplicità viene sostituita con una data che contiene già molti risultati
+
         $yesterday = "2020-06-24";
 
         $query = StoricoAchv::join('departments as d', 'storico_achvs.id_reparto', '=', 'd.id')
             ->where('storico_achvs.data', $yesterday)
             ->get(['d.nome', 'storico_achvs.target']);
-        /*"SELECT r. nome, s.target from reparto r join storico_ach s on s.id_reparto = r.id
-             where s.data = '$yesterday'";*/
 
         if(isset($query)) {
             $data[] = $query;
@@ -79,8 +70,6 @@ class LoginHomeController extends BaseController
                 return json_encode("Errore server");
             }
     }
-
-    // -- home_department.php --
 
     public function homeDepartment() {
         if(session("username") !== null) {
@@ -108,8 +97,6 @@ class LoginHomeController extends BaseController
         }
 
     }
-
-    // -- logout.php --
 
     public function logout($send) {
         session()->flush();
